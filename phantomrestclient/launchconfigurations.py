@@ -9,10 +9,9 @@ class LaunchConfigurations():
         self.pr = PhantomRequests()
 
     def get_all(self):
-        """Retrieve all the running domains, create a new Domain instance for each one and return the array that
-        contains them all
+        """Retrieve all the launch configuration available and create a new LauncConfiguration instance for each one
 
-        :return:
+        :return: LauncConfiguration list that contains all the instances created
         """
         lcs = []
         lcs_json = json.loads(self.pr.get_all_launchconfigurations())
