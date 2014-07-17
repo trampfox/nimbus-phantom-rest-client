@@ -1,7 +1,7 @@
 __author__ = 'Davide Monfrecola'
 
 import json
-from phantomrequests import PhantomRequests
+from phantomrestclient.phantomrequests import PhantomRequests
 
 class Sensors():
 

@@ -1,7 +1,7 @@
 __author__ = 'Davide Monfrecola'
 
 import json
-from phantomrequests import PhantomRequests
+from phantomrestclient.phantomrequests import PhantomRequests
 
 class LaunchConfigurations():
 
@@ -32,7 +32,7 @@ class LaunchConfiguration():
         self.cloud_params = None
         self.owner = None
         self.uri = None
-        #self.contextualization_method = None
+        self.contextualization_method = None
         self.id = None
 
 
@@ -44,12 +44,14 @@ class LaunchConfiguration():
             raise Exception("Incorrect JSON data!")
 
         self.name = json['name']
-        if 'user_data' in json: self.user_data = json['user_data']
+        if 'user_data' in json:
+            self.user_data = json['user_data']
         cps = CloudParams()
         self.cloud_params = cps.load(json['cloud_params'])
         self.owner = json['owner']
         self.uri = json['uri']
-        if 'contextualization_method' in json: self.contextualization_method = json['contextualization_method']
+        if 'contextualization_method' in json:
+            self.contextualization_method = json['contextualization_method']
         self.id = json['id']
 
 class CloudParams():
