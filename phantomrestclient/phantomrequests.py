@@ -27,3 +27,8 @@ class PhantomRequests():
 
         r = requests.get(url, headers={'Authorization': 'Basic %s' % self.access_token})
         return r.text
+
+    def get_credentials(self, cloud_name):
+        url = 'https://phantom.nimbusproject.org/api/dev/credentials/sites/' + cloud_name
+        r = requests.get(url, headers={'Authorization': 'Basic %s' % self.access_token})
+        return r.text

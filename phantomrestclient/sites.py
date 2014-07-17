@@ -38,7 +38,7 @@ class Site():
             raise Exception("Incorrect JSON data!")
 
         self.id = json['id']
-        self.credentials = json['credentials']
+        self.credentials = Credentials(self.id)
         self.instance_types = json['instance_types']
         self.uri = json['uri']
         if 'public_images' in json:
@@ -49,5 +49,16 @@ class Site():
 
 class Credentials():
 
-    def __init__(self):
-        pass
+    def __init__(self, cloud_name):
+        self.cloud_name = cloud_name
+        self.pr = PhantomRequests()
+        try:
+            json = self.get_credentials()
+            self.access_key = json['access_key']
+            self.key_name = json['key_name']
+            self.secret_key = json['secret_key']
+        except Exception as e:
+            pass #TODO log exception
+
+    def get_credentials(self):
+        return json.loads(self.pr.get_credentials(self.cloud_name))
