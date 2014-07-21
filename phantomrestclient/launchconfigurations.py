@@ -23,6 +23,15 @@ class LaunchConfigurations():
 
         return lcs
 
+    def create_lc(self, name, contextualization_method, cloud_params):
+        """Create new launch configuration using POST call
+
+        """
+        parameters = {'name': name, 'contextualization_method': contextualization_method, 'cloud_params': cloud_params}
+
+        # trasforma array in json
+
+
 class LaunchConfiguration():
 
     def __init__(self):
