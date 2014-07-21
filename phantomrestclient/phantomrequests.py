@@ -12,7 +12,11 @@ class PhantomRequests():
         self.access_token = self.auth.read_token_from_file()
 
     def get_request(self, entity, id=""):
-        r = requests.get(("%s/%s/%s" % self.api_url, entity, id),
+        if id is not "":
+            url = "%s/%s/%s" % (self.api_url, entity, id)
+        else:
+            url = "%s/%s" % (self.api_url, entity)
+        r = requests.get(url,
                          headers={'Authorization': 'Basic %s' % self.access_token})
 
         if r.status_code == requests.codes.ok:
@@ -48,45 +52,34 @@ class PhantomRequests():
             r.raise_for_status()
 
     def get_all_domains(self):
-        return self.get_request("domains")
+        return self.get_request('domains')
 
     def get_all_launchconfigurations(self):
-        r = requests.get('https://phantom.nimbusproject.org/api/dev/launchconfigurations',
-                         headers={'Authorization': 'Basic %s' % self.access_token})
-        return r.text
+        return self.get_request('launchconfigurations')
 
     def get_all_sites(self, details=True):
-        url = 'https://phantom.nimbusproject.org/api/dev/sites'
-
+        entity = 'sites'
         if details is True:
-            url + '?details=true'
-
-        r = requests.get(url, headers={'Authorization': 'Basic %s' % self.access_token})
-        return r.text
+            entity + '?details=true'
+        return self.get_request(entity=entity)
 
     def get_credentials(self, cloud_name):
-        url = 'https://phantom.nimbusproject.org/api/dev/credentials/sites/' + cloud_name
-        r = requests.get(url, headers={'Authorization': 'Basic %s' % self.access_token})
-        return r.text
+        return self.get_request('credentials/sites/' + cloud_name)
 
     def create_lc(self, parameters):
-        response = self.post_request(entity="launchconfigurations", data=parameters)
-        return response
+        return self.post_request(entity='launchconfigurations', data=parameters)
 
     def update_lc(self, id, parameters):
-        response = self.put_request(entity="launchconfigurations", id=id, data=parameters)
-        return response
+        return self.put_request(entity='launchconfigurations', id=id, data=parameters)
 
     def delete_lc(self, id):
-        response = self.delete_request(entity="launchconfigurations", id=id)
-        return response
+        return self.delete_request(entity='launchconfigurations', id=id)
 
     def create_domain(self, parameters):
-        url = 'https://phantom.nimbusproject.org/api/dev/domains'
-        headers = {'content-type': 'application/json', 'Authorization': 'Basic %s' % self.access_token}
-        r = requests.post(url, data=json.dumps(parameters), headers=headers)
+        return self.post_request(entity='domains', data=parameters)
 
-        if r.status_code == requests.codes.ok:
-            return r.text
-        else:
-            r.raise_for_status()
+    def update_domain(self, id, parameters):
+        return self.put_request(entity='domains', id=id, data=parameters)
+
+    def delete_domain(self, id):
+        return self.delete_request(entity='domains', id=id)
