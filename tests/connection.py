@@ -10,3 +10,6 @@ class PhantomRestClientConnectionTest(unittest.TestCase):
     def test_client(self):
         # test
         self.assertEqual(self.foo, 2)
+
+if __name__ == '__main__':
+    unittest.main()
