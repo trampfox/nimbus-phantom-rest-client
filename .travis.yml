@@ -1,3 +1,4 @@
 language: python
 script:
-    - ./tests/mytest.py
+    - cd tests
+    - python mytest.py
